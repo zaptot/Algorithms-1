@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[39]:
 
 
 def quickSort(arr, first, last):
@@ -12,29 +12,22 @@ def quickSort(arr, first, last):
     return arr;
 
 def findQ(arr, first, last):
-    pivotvalue = arr[first]
-    left = first+1
-    right = last
-    done = False
-    while not done:
-        while left <= right and arr[left] <= pivotvalue:
-            left = left + 1
-        while arr[right] >= pivotvalue and right >= left:
-            right = right -1
-        if right < left:
-            done = True
-        else:
-            temp = arr[left]
-            arr[left] = arr[right]
-            arr[right] = temp
-    temp = arr[first]
-    arr[first] = arr[right]
-    arr[right] = temp
-    return right
-        
+    pivot = arr[last]
+    index_of_smaller = first - 1
+    for j in range(first,last):
+        if (arr[j] <= pivot):
+            index_of_smaller += 1
+            temp = arr[index_of_smaller]
+            arr[index_of_smaller] = arr[j]
+            arr[j] = temp
+    temp = arr[index_of_smaller + 1]
+    arr[index_of_smaller + 1] = arr[last]
+    arr[last] = temp
+
+    return (index_of_smaller + 1);       
 
 
-# In[2]:
+# In[40]:
 
 
 people = [[27,'Jim'], [32,'Pam'], [25,'Micheal'], [44,'Dwight']]
