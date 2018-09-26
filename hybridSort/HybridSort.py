@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[20]:
 
 
 import random
@@ -32,16 +32,26 @@ def readFiles(index):
     
     return arr
 
+
+
+# hybrid sort
+def hybridSort(arr, first, last):
+    if first < last:
+        if (last-first) > k:
+            middle = (first+last)//2            
+            hybridSort(arr, first, middle)
+            hybridSort(arr, middle+1, last)
+            merge(arr, first, middle, last)
+        else:
+            insertionSort(arr, first, last + 1) 
+
 # merge sort
 def mergeSort(arr, first, last):
     if first < last:
-        if (last-first) > k:
             middle = (first+last)//2            
             mergeSort(arr, first, middle)
             mergeSort(arr, middle+1, last)
             merge(arr, first, middle, last)
-        else:
-            insertionSort(arr, first, last + 1) 
 
 def merge(arr, first, middle, last):
     left = arr[first:middle+1]
@@ -58,31 +68,6 @@ def merge(arr, first, middle, last):
             arr[k] = right[j]
             j += 1
 
-# 2 megre            
-# def merge1(arr, first, middle, last):
-#     m=0
-#     k=0
-#     result = [None] *(last-first)
-#     while ((first + m) < middle and (middle + k) < last):
-#         if a[first + m] < a[middle + k]:
-#             result[m + k] = a[first + m]
-#             m += 1
-#         else:
-#             result[m + k] = a[middle + k]
-#             k += 1
-  
-#     while (first + m) < middle:
-#         result[m + k] = a[first + m]
-#         m += 1
-  
-#     while middle + k < last:
-#         result[m + k] = a[middle + k]
-#         k += 1
-  
-#     for i in range(m + k):
-#         a[first + i] = result[i]
-
-
 # insertion sort
 def insertionSort(arr, first, last):
     for i in range(first + 1, last-first):
@@ -94,25 +79,53 @@ def insertionSort(arr, first, last):
         arr[j+1] = curr
 
 
-# In[2]:
+# In[21]:
 
 
-# writeInFile()
+writeInFile()
 
 
-# In[3]:
+# In[ ]:
 
 
-# t = time.time()
-# while k <201:
-#     t=time.time()
+t3 = time.time()
 for n in range(50):
     a = readFiles(n)
     mergeSort(a, 0, len(a)-1)
-#     print(k)
-#     k -= 1
-#     t2=(time.time()-t)
-#     print(t2)
-# print(time.time() - t)
+t4=time.time()-t3
+while k < 201:
+    t = time.time()
+    for n in range(50):
+        a = readFiles(n)
+        hybridSort(a, 0, len(a)-1)
+    t2=time.time()-t
+    if(t2 < t4):
+        print(t4-t2,k)
+    k -= 1
 # insertionSort(a, 0, len(a))
 #print (a)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
