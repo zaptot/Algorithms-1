@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[26]:
 
 
 import time
@@ -71,7 +71,7 @@ def findQ(arr, first, last):
     return (index_of_smaller + 1);   
 
 
-# In[16]:
+# In[27]:
 
 
 a=[1,2,31,4,5,16,7,8,9,56,554,245,234,14,3,6,22,11,26,17,13]
@@ -93,7 +93,7 @@ interTime = time.time() - interTime
 # print(a)
 print('Binary search time:', binTime)
 print('Interpolation search time:', interTime)
-print('Interpolation search faster:', binTime - interTime)
+print('Binary search faster:', interTime - binTime)
 
 
 # In[2]:
