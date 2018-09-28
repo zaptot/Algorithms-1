@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[26]:
+# In[]:
 
 
 import time
-
-NUM_TO_FIND = 6
+import sys
 
 # arr - sorted array
 def binarySearch(arr, item):
@@ -71,33 +70,34 @@ def findQ(arr, first, last):
     return (index_of_smaller + 1);   
 
 
-# In[27]:
+# In[]:
 
 
-a=[1,2,31,4,5,16,7,8,9,56,554,245,234,14,3,6,22,11,26,17,13]
-quickSort(a,0,len(a)-1)
+a=[3]
 
 # print(binarySearch(a, NUM_TO_FIND))
 # print(interpolationSearch(a, NUM_TO_FIND))
 
-# Binary search time executing.
-binTime = time.time()
-binarySearch(a, NUM_TO_FIND)
-binTime = time.time() - binTime
+for i in range (20):
+    x = random.randint(1,25)
+    a.append(x)
+    quickSort(a,0,len(a)-1)
+    NUM_TO_FIND = 1
+    # Binary search time executing.
+    binTime = time.time()
+    binarySearch(a, NUM_TO_FIND)
+    binTime = time.time() - binTime
 
-# Interpolation search time executing.
-interTime = time.time()
-interIndex = interpolationSearch(a, NUM_TO_FIND)
-interTime = time.time() - interTime
-
-# print(a)
-print('Binary search time:', binTime)
-print('Interpolation search time:', interTime)
-print('Binary search faster:', interTime - binTime)
-
-
-# In[2]:
-
-
-
+    # Interpolation search time executing.
+    interTime = time.time()
+    interIndex = interpolationSearch(a, NUM_TO_FIND)
+    interTime = time.time() - interTime
+    if interTime > binTime:
+        n = i+2
+        print(a)
+        print('Binary search time:', binTime)
+        print('Interpolation search time:', interTime)
+        print('Binary search faster:', interTime - binTime)
+        print ('Binary search faster starting with the',n,'th','item')
+        break
 
