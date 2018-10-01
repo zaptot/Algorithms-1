@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[]:
+# In[1]:
 
 
 import time
 import sys
+import random
 
 # arr - sorted array
 def binarySearch(arr, item):
@@ -70,24 +71,24 @@ def findQ(arr, first, last):
     return (index_of_smaller + 1);   
 
 
-# In[]:
+# In[2]:
 
 
 a=[3]
 
-# print(binarySearch(a, NUM_TO_FIND))
+
 # print(interpolationSearch(a, NUM_TO_FIND))
+# print(binarySearch(a, NUM_TO_FIND))
 
 for i in range (20):
     x = random.randint(1,25)
     a.append(x)
     quickSort(a,0,len(a)-1)
-    NUM_TO_FIND = 1
+    NUM_TO_FIND = 3
     # Binary search time executing.
     binTime = time.time()
     binarySearch(a, NUM_TO_FIND)
     binTime = time.time() - binTime
-
     # Interpolation search time executing.
     interTime = time.time()
     interIndex = interpolationSearch(a, NUM_TO_FIND)
@@ -100,4 +101,10 @@ for i in range (20):
         print('Binary search faster:', interTime - binTime)
         print ('Binary search faster starting with the',n,'th','item')
         break
+
+
+# In[ ]:
+
+
+
 
