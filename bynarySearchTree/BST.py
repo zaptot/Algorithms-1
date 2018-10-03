@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[41]:
+# In[20]:
 
 
 # печать
@@ -102,12 +102,12 @@ class AVLTree():
             debug("Inserted key [" + str(key) + "]")
         
         elif key < tree.key: 
-            self.node.left=self.node.left.insert(key)
-            return lrotate(tree)
+            self.node.left=self.node.left.insertroot(key)
+            return self.lrotate()
             
         elif key > tree.key: 
-            self.node.right=self.node.right.insert(key)
-            return rrotate(tree)
+            self.node.right=self.node.right.insertroot(key)
+            return self.rrotate()
         
         else: 
             debug("Key [" + str(key) + "] already in tree.")
@@ -200,11 +200,11 @@ class AVLTree():
 if __name__ == "__main__": 
     a = AVLTree()
     print( "Inserting")
-    inlist = [7, 5, 2, 6, 3, 4, 1, 8, 9, 0]
+    inlist = [7, 5, 2, 6, 3, 4, 1, 8, 10, 0]
     for i in inlist: 
         a.insert(i)
-    k=10
-#     a.insertroot(k)
+    k=9
+    a.insertroot(k)
          
     a.display()
     
