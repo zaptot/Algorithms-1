@@ -1,34 +1,46 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[41]:
 
 
+# печать
+outputdebug = False 
+
+def debug(msg):
+    if outputdebug:
+        print(msg)
+        
+# Класс для инициализации узлов
 class Node():
     def __init__(self, key):
-        self.key = key
+        self.key = key #ключ
+#         левое и правое поддеревья, пока считаем, что дерево пустое(т.е. попросту отсутствует)
         self.left = None 
         self.right = None 
-
-class AVLTree():
-    def __init__(self, *args):
-        self.node = None 
-        self.height = -1  
-        self.balance = 0; 
         
-        if len(args) == 1: 
-            for i in args[0]: 
-                self.insert(i)
+# Задание дерева
+class AVLTree():
+    def __init__(self):
+        self.node = None #узлы
+        self.height = -1  #высота дерева/размер
+        self.balance = 0; #баланс/равновесие
+        
                 
+#   Задание высоты
     def height(self):
         if self.node: 
             return self.node.height 
         else: 
             return 0 
-    
+        
+#   Лист
     def is_leaf(self):
         return (self.height == 0) 
     
+#     Вставка обычная
+# рекурсивно вставляем новый ключ в корень левого или правого поддеревьев 
+# (в зависимости от результата сравнения с корневым ключом)
     def insert(self, key):
         tree = self.node
         
@@ -38,7 +50,7 @@ class AVLTree():
             self.node = newnode 
             self.node.left = AVLTree() 
             self.node.right = AVLTree()
-            print("Inserted key [" + str(key) + "]")
+            debug("Inserted key [" + str(key) + "]")
         
         elif key < tree.key: 
             self.node.left.insert(key)
@@ -47,13 +59,65 @@ class AVLTree():
             self.node.right.insert(key)
         
         else: 
-            print("Key [" + str(key) + "] already in tree.")
+            debug("Key [" + str(key) + "] already in tree.")
             
         self.rebalance() 
         
+    def rrotate(self):
+        # Поворот вправо
+        debug ('Rotating ' + str(self.node.key) + ' right') 
+        A = self.node 
+        B = self.node.left.node 
+        T = B.right.node 
+        
+        self.node = B 
+        B.right.node = A 
+        A.left.node = T 
+
+    
+    def lrotate(self):
+        # Поворот влево
+        debug ('Rotating ' + str(self.node.key) + ' left') 
+        A = self.node 
+        B = self.node.right.node 
+        T = B.left.node 
+        
+        self.node = B 
+        B.left.node = A 
+        A.right.node = T 
+    
+#     Вставка в корень
+#     Сначала рекурсивно вставляем новый ключ в корень левого или правого поддеревьев 
+# (в зависимости от результата сравнения с корневым ключом)
+# выполняем правый (левый) поворот, который поднимает нужный нам узел в корень дерева. 
+    def insertroot(self, key):
+        tree = self.node
+        
+        newnode = Node(key)
+        
+        if tree == None:
+            self.node = newnode 
+            self.node.left = AVLTree() 
+            self.node.right = AVLTree()
+            debug("Inserted key [" + str(key) + "]")
+        
+        elif key < tree.key: 
+            self.node.left=self.node.left.insert(key)
+            return lrotate(tree)
+            
+        elif key > tree.key: 
+            self.node.right=self.node.right.insert(key)
+            return rrotate(tree)
+        
+        else: 
+            debug("Key [" + str(key) + "] already in tree.")
+            
+        self.rebalance() 
+        
+#     Ребалансировка дерева   
     def rebalance(self):
         
-        # Key inserted. Check balance
+        # Ключ вставлен. Надо проверить баланс
         self.update_heights(False)
         self.update_balances(False)
         while self.balance < -1 or self.balance > 1: 
@@ -75,33 +139,10 @@ class AVLTree():
                 self.update_heights()
                 self.update_balances()
 
-
-            
-    def rrotate(self):
-        # Rotate left pivoting on self
-        print ('Rotating ' + str(self.node.key) + ' right') 
-        A = self.node 
-        B = self.node.left.node 
-        T = B.right.node 
         
-        self.node = B 
-        B.right.node = A 
-        A.left.node = T 
-
-    
-    def lrotate(self):
-        # Rotate left pivoting on self
-        print ('Rotating ' + str(self.node.key) + ' left') 
-        A = self.node 
-        B = self.node.right.node 
-        T = B.left.node 
-        
-        self.node = B 
-        B.left.node = A 
-        A.right.node = T 
-        
-            
+#     Изменение высоты         
     def update_heights(self, recurse=True):
+#         если дерево не пустое
         if not self.node == None: 
             if recurse: 
                 if self.node.left != None: 
@@ -114,6 +155,7 @@ class AVLTree():
         else: 
             self.height = -1 
             
+#      Изменение баланса       
     def update_balances(self, recurse=True):
         if not self.node == None: 
             if recurse: 
@@ -124,20 +166,12 @@ class AVLTree():
 
             self.balance = self.node.left.height - self.node.right.height 
         else: 
-            self.balance = 0  
-
-
-    def check_balanced(self):
-        if self == None or self.node == None: 
-            return True
-        
-        # Make sure balanced
-        self.update_heights()
-        self.update_balances()
-        return ((abs(self.balance) < 2) and self.node.left.check_balanced() and self.node.right.check_balanced())  
-        
+            self.balance = 0 
+    
+#     перемещение по порядку
     def inorder_traverse(self):
-        if self.node == None:
+#       если дерево пустое
+        if self.node == None: 
             return [] 
         
         inlist = [] 
@@ -154,7 +188,7 @@ class AVLTree():
         return inlist 
 
     def display(self, level=0, pref=''):     
-        self.update_heights()  # Update heights before balances 
+        self.update_heights()  # Изменение высоты до измения баланса 
         self.update_balances()
         if(self.node != None): 
             print ('-' * level * 2, pref, self.node.key, "[" + str(self.height) + ":" +                    str(self.balance) + "]", 'L' if self.is_leaf() else 'R')
@@ -169,11 +203,26 @@ if __name__ == "__main__":
     inlist = [7, 5, 2, 6, 3, 4, 1, 8, 9, 0]
     for i in inlist: 
         a.insert(i)
+    k=10
+#     a.insertroot(k)
          
     a.display()
-     
-    print ("Input            :", inlist )
+    
+    print("Input for insert in root:", k)
+    print ("Input:", inlist )
     print ("Inorder traversal:", a.inorder_traverse() )
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
