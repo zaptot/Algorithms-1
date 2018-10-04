@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[24]:
+# In[13]:
 
 
 # печать
@@ -18,6 +18,7 @@ class Node():
 #         левое и правое поддеревья, пока считаем, что дерево пустое(т.е. попросту отсутствует)
         self.left = None 
         self.right = None 
+        self.height = 1
         
 # Задание дерева
 class AVLTree():
@@ -26,13 +27,6 @@ class AVLTree():
         self.height = -1  #высота дерева/размер
         self.balance = 0; #баланс/равновесие
         
-                
-#   Задание высоты
-    def height(self):
-        if self.node: 
-            return self.node.height 
-        else: 
-            return 0 
         
 #   Лист
     def is_leaf(self):
@@ -62,31 +56,8 @@ class AVLTree():
             debug("Key [" + str(key) + "] already in tree.")
             
         self.rebalance() 
-        
-    def rrotate(self):
-        # Поворот вправо
-        debug ('Rotating ' + str(self.node.key) + ' right') 
-        A = self.node 
-        B = self.node.left.node 
-        T = B.right.node 
-        
-        self.node = B 
-        B.right.node = A 
-        A.left.node = T 
 
-    
-    def lrotate(self):
-        # Поворот влево
-        debug ('Rotating ' + str(self.node.key) + ' left') 
-        A = self.node 
-        B = self.node.right.node 
-        T = B.left.node 
-            
-        self.node = B 
-        B.left.node = A 
-        A.right.node = T 
-    
-#     Вставка в корень
+        #     Вставка в корень
 #     Сначала рекурсивно вставляем новый ключ в корень левого или правого поддеревьев 
 # (в зависимости от результата сравнения с корневым ключом)
 # выполняем правый (левый) поворот, который поднимает нужный нам узел в корень дерева. 
@@ -114,13 +85,44 @@ class AVLTree():
             
         self.rebalance() 
         
+    def rrotate(self):
+        # Поворот вправо
+        debug ('Rotating ' + str(self.node.key) + ' right') 
+        A = self.node 
+        B = self.node.left.node 
+        T = B.right.node 
+        
+        self.node = B 
+        B.right.node = A 
+        A.left.node = T 
+#         изменение высоты
+        A.height = max(A.left.height, A.right.height)+1
+        B.height = max(B.left.height, B.right.height)+1
+
+    
+    def lrotate(self):
+        # Поворот влево
+        debug ('Rotating ' + str(self.node.key) + ' left') 
+        A = self.node 
+        B = self.node.right.node 
+        T = B.left.node 
+            
+        self.node = B 
+        B.left.node = A 
+        A.right.node = T 
+#         изменение высоты
+        A.height = max(A.left.height, A.right.height)+1
+        B.height = max(B.left.height, B.right.height)+1
+        
 #     Ребалансировка дерева   
     def rebalance(self):
         
         # Ключ вставлен. Надо проверить баланс
         self.update_heights(False)
         self.update_balances(False)
+#         Пока дерево не сбалансировано
         while self.balance < -1 or self.balance > 1: 
+#         Левое поддерево> Правое поддерево
             if self.balance > 1:
                 # Left-Right Case
                 #      o
@@ -131,13 +133,14 @@ class AVLTree():
                 #    / \
                 #   o   o
                 if self.node.left.balance < 0:  
+#                   Левое поддерево> Правого -> поворот влево
                     self.node.left.lrotate() # in case II
                     self.update_heights()
                     self.update_balances()
                 self.rrotate()
                 self.update_heights()
                 self.update_balances()
-                
+            # Левое поддерево> Правое поддерево    
             if self.balance < -1:
                 #      o
                 #     / \
@@ -146,7 +149,8 @@ class AVLTree():
                 #      o   o
                 #    / \
                 #   o   o
-                if self.node.right.balance > 0:  
+                if self.node.right.balance > 0: 
+#                     Левое поддерево <правого -> поворот вправо
                     self.node.right.rrotate() # in case III
                     self.update_heights()
                     self.update_balances()
@@ -159,29 +163,29 @@ class AVLTree():
     def update_heights(self, recurse=True):
 #         если дерево не пустое
 # Высота дерева - это максимальная высота либо левого, либо правого поддерева +1
-        if not self.node == None: 
-            if recurse: 
-                if self.node.left != None: 
-                    self.node.left.update_heights()
-                if self.node.right != None:
-                    self.node.right.update_heights()
+        if self.node: 
+            if self.node.left != None: 
+                self.node.left.update_heights()
+            if self.node.right != None:
+                self.node.right.update_heights()
             
-            self.height = max(self.node.left.height,
-                              self.node.right.height) + 1 
+            self.height = max(self.node.left.height,self.node.right.height) + 1 
         else: 
+            # корень
             self.height = -1 
             
 #      Изменение баланса       
     def update_balances(self, recurse=True):
-        if not self.node == None: 
-            if recurse: 
-                if self.node.left != None: 
-                    self.node.left.update_balances()
-                if self.node.right != None:
-                    self.node.right.update_balances()
+# # Баланс = Высота слева - Высота правого узла
+        if self.node:  
+            if self.node.left != None: 
+                self.node.left.update_balances()
+            if self.node.right != None:
+                self.node.right.update_balances()
 
             self.balance = self.node.left.height - self.node.right.height 
         else: 
+            # корень
             self.balance = 0 
     
 #     перемещение по порядку
