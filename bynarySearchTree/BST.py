@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[20]:
+# In[24]:
 
 
 # печать
@@ -81,7 +81,7 @@ class AVLTree():
         A = self.node 
         B = self.node.right.node 
         T = B.left.node 
-        
+            
         self.node = B 
         B.left.node = A 
         A.right.node = T 
@@ -122,6 +122,14 @@ class AVLTree():
         self.update_balances(False)
         while self.balance < -1 or self.balance > 1: 
             if self.balance > 1:
+                # Left-Right Case
+                #      o
+                #     / \
+                #   o    o
+                #  / \      => left rotation
+                # o   o
+                #    / \
+                #   o   o
                 if self.node.left.balance < 0:  
                     self.node.left.lrotate() # in case II
                     self.update_heights()
@@ -131,6 +139,13 @@ class AVLTree():
                 self.update_balances()
                 
             if self.balance < -1:
+                #      o
+                #     / \
+                #   o    o
+                #       / \      => right rotation
+                #      o   o
+                #    / \
+                #   o   o
                 if self.node.right.balance > 0:  
                     self.node.right.rrotate() # in case III
                     self.update_heights()
@@ -143,6 +158,7 @@ class AVLTree():
 #     Изменение высоты         
     def update_heights(self, recurse=True):
 #         если дерево не пустое
+# Высота дерева - это максимальная высота либо левого, либо правого поддерева +1
         if not self.node == None: 
             if recurse: 
                 if self.node.left != None: 
@@ -200,11 +216,11 @@ class AVLTree():
 if __name__ == "__main__": 
     a = AVLTree()
     print( "Inserting")
+    k=9
+    a.insertroot(k)
     inlist = [7, 5, 2, 6, 3, 4, 1, 8, 10, 0]
     for i in inlist: 
         a.insert(i)
-    k=9
-    a.insertroot(k)
          
     a.display()
     
