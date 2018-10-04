@@ -43,7 +43,7 @@ def interpolationSearch(arr, item):
             result['index'] = middle
             return result
         if item < current:
-            max_index = middle - 1
+            last = middle - 1
         if item > current:
             first = middle + 1
     return result
@@ -74,7 +74,7 @@ def findQ(arr, first, last):
 # In[2]:
 
 
-a=[3]
+a=[15]
 
 
 # print(interpolationSearch(a, NUM_TO_FIND))
@@ -84,7 +84,7 @@ for i in range (20):
     x = random.randint(1,25)
     a.append(x)
     quickSort(a,0,len(a)-1)
-    NUM_TO_FIND = 3
+    NUM_TO_FIND = 15
     # Binary search time executing.
     binTime = time.time()
     binarySearch(a, NUM_TO_FIND)
@@ -101,6 +101,12 @@ for i in range (20):
         print('Binary search faster:', interTime - binTime)
         print ('Binary search faster starting with the',n,'th','item')
         break
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
