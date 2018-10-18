@@ -31,13 +31,6 @@ class HashTable:
                 self.values[key].append(number)
         else:
             self.values[key] = [number]
-            
-    def __str__(self):
-        keys = sorted(self.values.keys())
-        a=max(json.dumps(len(self.values[key]))for key in keys)
-        return a
-#         return ''.join([str(key) + ': ' + json.dumps(self.values[key])+json.dumps(len(self.values[key]))+'\n'+a for key in keys])
-        
         
     def remove(self, number):
         key = hash_function(number)
@@ -54,6 +47,13 @@ class HashTable:
             return self.values[key][self.values[key].index(number)]
         else:
             raise ValueError('Could not find value.')
+            
+    def __str__(self):
+        keys = sorted(self.values.keys())
+        a=max(json.dumps(len(self.values[key]))for key in keys)
+        return a
+#         return ''.join([str(key) + ': ' + json.dumps(self.values[key])+json.dumps(len(self.values[key]))+'\n'+a for key in keys])
+        
 
 
 
