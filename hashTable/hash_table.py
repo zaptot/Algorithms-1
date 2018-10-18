@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[6]:
 
 
 import json
 from random import randint
 
-HASH_CONSTANT = 103
+HASH_CONSTANT = 211
 
 def hash_function(value):
-    return value % HASH_CONSTANT
+    return (value % HASH_CONSTANT)*1000
 
 
 class HashTable:
@@ -47,9 +47,9 @@ class HashTable:
 
 if __name__ == '__main__':
     hashTable = HashTable()
-
     for i in range(0, 1000):
         hashTable.add(randint(0, 100000))
+        
     hashTable.add(350)
     print(hashTable.find(350))
     hashTable.remove(350)
@@ -60,6 +60,12 @@ if __name__ == '__main__':
         print('Could not find value.')
 
     print(hashTable)
+
+
+# In[4]:
+
+
+
 
 
 # In[ ]:
