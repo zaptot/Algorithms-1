@@ -59,7 +59,7 @@ class HashTable:
 
 if __name__ == '__main__':
     hashTable = []
-    for j in range (1,50):
+    for j in range (1,51):
         print(j, 'HashTable')
         h=HashTable()
         hashTable.append(h)
