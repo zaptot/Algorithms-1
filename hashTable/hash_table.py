@@ -32,15 +32,6 @@ class HashTable:
         else:
             self.values[key] = [number]
             
-
-    def longestChain(self):
-        res = 0
-        for chain in self:
-            length = len(chain)
-            if length > res:
-                res = length
-        return res
-            
     def __str__(self):
         keys = sorted(self.values.keys())
         a=max(json.dumps(len(self.values[key]))for key in keys)
