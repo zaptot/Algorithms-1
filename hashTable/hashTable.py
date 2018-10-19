@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[36]:
+# In[11]:
 
 
 from random import randint
@@ -22,7 +22,7 @@ def makeArray():
     return [random.randint(0, 1000) for j in range(1000)]
 
 
-# In[37]:
+# In[12]:
 
 
 class Node:
@@ -52,7 +52,7 @@ class Node:
             self.count += 1
 
 
-# In[38]:
+# In[13]:
 
 
 class HashTableChain:
@@ -88,7 +88,7 @@ class HashTableChain:
 
         return hash_function(number)
 
-    def printTable(self):
+    def printHashTable(self):
         for i in range(len(self.values)):
             node = self.values[i]
             
@@ -99,7 +99,7 @@ class HashTableChain:
                 
 
 
-# In[39]:
+# In[14]:
 
 
 arrA = [(math.sqrt(5)-1)/2, A1, A2, A3]
@@ -118,7 +118,7 @@ for k in range(len(arrA)):
     
 #     Uncomment to show hash table
 #         if i == 1 and k == 0:
-#             hashTable.printTable()
+#             hashTable.printHashTable()
             
         if hashTable.findLongestChain() > longest:
              longest = hashTable.findLongestChain()
@@ -126,7 +126,7 @@ for k in range(len(arrA)):
     print(longest, "for A =", A)
 
 
-# In[40]:
+# In[25]:
 
 
 # find 
@@ -146,7 +146,7 @@ index = hashTable.find(2)
 print(index)
 
 
-# In[41]:
+# In[16]:
 
 
 A = (math.sqrt(5)-1)/2
@@ -161,7 +161,7 @@ class OpenAdressing():
 #         Here we don't need any linked lists
         self.values = [None for _ in range(M)]
         
-    def insert(self, value):
+    def add(self, value):
         key = hashFunction(value)
         i = 1
 
@@ -204,10 +204,10 @@ class OpenAdressing():
             print(i, ":", self.values[i])
 
 
-# In[42]:
+# In[17]:
 
 
-maxMaxI = -1
+MaxI = -1
 
 for i in range(50):
     hashTable = OpenAdressing()
@@ -216,13 +216,13 @@ for i in range(50):
     maxI = -1
 
     for j in range(len(array)):
-        curI = hashTable.insert(array[j])
+        curI = hashTable.add(array[j])
 
         if curI > maxI:
             maxI = curI
 
-        if maxI > maxMaxI:
-            maxMaxI = maxI
+        if maxI > MaxI:
+            MaxI = maxI
         
 #     Uncomment to show table
     if i == 0:
@@ -230,19 +230,19 @@ for i in range(50):
 print(maxMaxI)  
 
 
-# In[43]:
+# In[18]:
 
 
 hashTable = OpenAdressing()
 array = makeArray()
 
 for j in range(len(array)):
-    hashTable.insert(array[j])
+    hashTable.add(array[j])
 
 print(hashTable.find(6))
 
 
-# In[44]:
+# In[19]:
 
 
 hashTable.printHashTable()
