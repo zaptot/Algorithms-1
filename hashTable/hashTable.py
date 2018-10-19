@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[141]:
+# In[36]:
 
 
 from random import randint
@@ -9,12 +9,11 @@ import math
 import random
 
 HASH_CONSTANT = 211
-PRIME = 1279
 M=1000
 A=(math.sqrt(5)-1)/2
 A1=0.52354
 A2=0.72474487
-A3=0.366025
+A3=1/math.sqrt(2)
 
 def hash_function(value):
     return math.floor(((value % HASH_CONSTANT)*A)%1*M)
@@ -23,7 +22,7 @@ def makeArray():
     return [random.randint(0, 1000) for j in range(1000)]
 
 
-# In[142]:
+# In[37]:
 
 
 class Node:
@@ -38,15 +37,22 @@ class Node:
             self.value = value
             self.count = 1
         else:
-            node = self.last     
+            node = self
             
+            while node.value != value and node != self.last:
+                node = node.next
+            
+            if node.value == value:
+                return
+            
+            node = self.last
             newNode = Node(value)
             node.next = newNode 
             self.last = newNode
             self.count += 1
 
 
-# In[143]:
+# In[38]:
 
 
 class HashTableChain:
@@ -58,7 +64,7 @@ class HashTableChain:
     def add(self, number):
         key = hash_function(number)
         
-        self.values[key].add(number)   
+        self.values[key].add(number)
     
     def findLongestChain(self):
         longest = -1
@@ -68,7 +74,21 @@ class HashTableChain:
         
         return longest
 
-    def __str__(self):
+    def find(self, number):
+        node =  self.values[hash_function(number)]
+
+        if node.value == None:
+            return None
+
+        while node.value != number:
+            node = node.next
+
+            if node == None:
+                return None
+
+        return hash_function(number)
+
+    def printTable(self):
         for i in range(len(self.values)):
             node = self.values[i]
             
@@ -76,11 +96,10 @@ class HashTableChain:
             while node!=None:
                 print(node.value, end=">")
                 node = node.next
-        
                 
 
 
-# In[144]:
+# In[39]:
 
 
 arrA = [(math.sqrt(5)-1)/2, A1, A2, A3]
@@ -96,34 +115,137 @@ for k in range(len(arrA)):
 
         for j in range(len(array)):
             hashTable.add(array[j])
-
+    
+#     Uncomment to show hash table
+#         if i == 1 and k == 0:
+#             hashTable.printTable()
+            
         if hashTable.findLongestChain() > longest:
-            longest = hashTable.findLongestChain()
+             longest = hashTable.findLongestChain()
 
     print(longest, "for A =", A)
 
 
-# In[145]:
+# In[40]:
 
 
-class OpenAddressing():
+# find 
 
-    def __init__(self, size):
-        self.values = [None] * (M+24)
+# def add
+
+hashTable = HashTableChain()
+array = makeArray()
+
+for j in range(len(array)):
+    hashTable.add(array[j])
+
+# As if array is made by makeArray function, number 2 may either present in that array or not
+# But in any case it will be saved on the same position (index) because of the same hash_function
+index = hashTable.find(2)
+
+print(index)
+
+
+# In[41]:
+
+
+A = (math.sqrt(5)-1)/2
+
+def hashFunction(value):
+    return math.floor(((value % HASH_CONSTANT) * A)%1 * M)
+
+class OpenAdressing():
+    values = []
+    
+    def __init__(self):
+#         Here we don't need any linked lists
+        self.values = [None for _ in range(M)]
         
-    def 
+    def insert(self, value):
+        key = hashFunction(value)
+        i = 1
+
+        if self.values[key] == None:
+            self.values[key] = value
+        elif self.values[key] != value:
+            newKey = (key + i) % M
+
+            while self.values[newKey] != None and self.values[newKey] != value: 
+                newKey = (key + i*i) % M
+                i += 1
+
+            if self.values[newKey] != value:
+                self.values[newKey] = value
+
+        return i-1
+
+    def find(self, value):
+        key = hashFunction(value)
+        i = 1
+
+        if self.values[key] == None:
+            return None
+        elif self.values[key] != value:
+            newKey = (key + i) % M
+
+            while self.values[newKey] != None and self.values[newKey] != value: 
+                newKey = (key + i*i) % M
+                i += 1
+
+            if self.values[newKey] == value:
+                return newKey
+            else:
+                return None
+        else:
+            return key
+
+    def printHashTable(self):
+        for i in range(len(self.values)):
+            print(i, ":", self.values[i])
 
 
-# In[138]:
+# In[42]:
 
 
+maxMaxI = -1
+
+for i in range(50):
+    hashTable = OpenAdressing()
+
+    array = makeArray()
+    maxI = -1
+
+    for j in range(len(array)):
+        curI = hashTable.insert(array[j])
+
+        if curI > maxI:
+            maxI = curI
+
+        if maxI > maxMaxI:
+            maxMaxI = maxI
+        
+#     Uncomment to show table
+    if i == 0:
+        hashTable.printHashTable()
+print(maxMaxI)  
 
 
-
-# In[140]:
-
+# In[43]:
 
 
+hashTable = OpenAdressing()
+array = makeArray()
+
+for j in range(len(array)):
+    hashTable.insert(array[j])
+
+print(hashTable.find(6))
+
+
+# In[44]:
+
+
+hashTable.printHashTable()
 
 
 # In[ ]:
