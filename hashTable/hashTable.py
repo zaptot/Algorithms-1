@@ -227,7 +227,7 @@ for i in range(50):
 #     Uncomment to show table
     if i == 0:
         hashTable.printHashTable()
-print(maxMaxI)  
+print(MaxI)  
 
 
 # In[18]:
