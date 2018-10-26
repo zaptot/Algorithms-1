@@ -71,8 +71,6 @@ def removeEdge(graph):
 
 
 # Задание графа (матрица инцидентности)
-import random
-import numpy as np
 N=int(input('число строк и столбцов: '))
         
 graph=[[0 for _ in range(N)] for _ in range(N)]
