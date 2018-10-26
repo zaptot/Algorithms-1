@@ -97,6 +97,5 @@ while(agree=="y"):
     N=N-1
     agree=str(input("Удалить еще вершину? y/n "))
 
-print(isEuler(graph))
-print(findCycle(graph))
-
+print("Эйлеров: ",isEuler(graph))
+print("Цикл: ",findCycle(graph))
