@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[10]:
+# In[77]:
 
 
-def find_cycle(graph):
+def findCycle(graph):
     if is_euler(graph):
         stack = []
         stack.append(0)
@@ -23,17 +23,21 @@ def find_cycle(graph):
         return None
 
 
-def is_euler(graph):
+# In[78]:
+
+
+def isEuler(graph):
     for row in graph:
         if (sum(row) % 2) != 0:
             return False
     return True
 
 
-# In[11]:
+# In[79]:
 
 
-with_cycle1 = [
+# Задание графов(матрица инцидентности)
+withoutCycle0 = [
     [0, 1, 0, 1, 0],
     [1, 0, 1, 0, 0],
     [0, 1, 0, 1, 0],
@@ -41,27 +45,49 @@ with_cycle1 = [
     [0, 0, 0, 1, 0],
 ]
 
-with_cycle = [
+withCycle0 = [
     [0, 1, 0, 1],
     [1, 0, 1, 0],
     [0, 1, 0, 1],
     [1, 0, 1, 0],
 ]
 
-without_cycle = [
+withoutCycle = [
     [0, 1, 0, 1],
     [1, 0, 0, 0],
     [0, 0, 0, 0],
     [1, 0, 0, 0],
 ]
 
+withCycle = [
+    [0, 1, 0, 0, 1],
+    [1, 0, 1, 0, 0],
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 1],
+    [1, 0, 0, 1, 0],
+]
 
-# In[12]:
+
+# In[80]:
 
 
-print(find_cycle(with_cycle1))
-print(find_cycle(with_cycle))
-print(find_cycle(without_cycle))
+print(isEuler(withCycle))
+print(isEuler(withoutCycle))
+
+
+# In[81]:
+
+
+print(findCycle(withoutCycle0))
+print(findCycle(withCycle0))
+print(findCycle(withoutCycle))
+print(findCycle(withCycle))
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
