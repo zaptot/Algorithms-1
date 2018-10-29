@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[3]:
 
 
 def addEdge(graph):
@@ -12,7 +12,7 @@ def addEdge(graph):
     graph[v2][v1]=1;
 
 
-# In[5]:
+# In[4]:
 
 
 def removeVertex(graph):
@@ -35,7 +35,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[6]:
+# In[5]:
 
 
 def matrix_to_list(matrix):
@@ -49,75 +49,76 @@ def matrix_to_list(matrix):
     return graph
 
 
-# In[7]:
+# In[50]:
 
 
-def BFS(graph, s): 
+def BFS(graph, s, visited, colors): 
         # Mark all the vertices as not visited 
-        visited = [False] * (len(graph)) 
-  
-        # Create a queue for BFS 
         queue = [] 
   
         # Mark the source node as  
         # visited and enqueue it 
         queue.append(s) 
         visited[s] = True
-  
+        colors[s]=1
         while queue: 
   
             # Dequeue a vertex from  
             # queue and print it 
             s = queue.pop(0) 
             print (s, end = " ") 
-  
             # Get all adjacent vertices of the 
             # dequeued vertex s. If a adjacent 
             # has not been visited, then mark it 
             # visited and enqueue it 
             for i in graph[s]: 
                 if visited[i] == False: 
+                    colors[i]=3-colors[s]
                     queue.append(i) 
                     visited[i] = True
 
 
-# In[27]:
+# In[56]:
 
 
 def connectedComponents(list): 
-    def findComponents(Node,Component):
-        while Node != Component[Node][0]: 
-            Node = Component[Node][0] 
-        return (Node,Component[Node][1]) 
-    components = {} 
-    for myNode in list.keys(): 
-        components[myNode] = (myNode,0) 
-    for i in list: 
-        for j in list[i]: 
-            (components_i,DepthI) = findComponents(i,components) 
-            (components_j,DepthJ) = findComponents(j,components) 
-            if components_i != components_j: 
-                Min = components_i 
-                Max = components_j
-                if DepthI > DepthJ: 
-                    Min = components_j 
-                    Max = components_i 
-                components[Max] = (Max,max(components[Min][1]+1,components[Max][1])) 
-                components[Min] = (components[Max][0],-1) 
-    items = {} 
-    for i in list: 
-        if components[i][0] == i: 
-            items[i] = [] 
-    for i in list: 
-        items[findComponents(i,components)[0]].append(i) 
-    return items 
+    componentsNumber = 0
+    visited = [False] * (N)
+    colors=[0]*(N)
+    for i in range(N):
+        if visited[i]==False:
+            print("Component number ",componentsNumber, ": ",end=" ")
+            componentsNumber+=1
+            BFS(list,i,visited,colors)
 
 
-# In[29]:
+# In[57]:
+
+
+def isDicotyledonous(list):
+    colors=[0]*(N)
+    visited = [False] * (N)
+    BFS(list, 0, visited, colors)
+    for i in range(N):
+        for j in range(len(list[i])):
+            if colors[i]==colors[list[i][j]]:
+                return False
+    print("\nFirst part: ")
+    for i in range(N):
+        if colors[i]==1:
+            print(i)
+    print("\nSecond part: ")
+    for i in range(N):
+        if colors[i]==2:
+            print(i)
+    return True
+
+
+# In[58]:
 
 
 # Задание графа (матрица инцидентности)
-N=int(input('число строк и столбцов: '))
+N=int(input('Количество вершин: '))
         
 graph=[[0 for _ in range(N)] for _ in range(N)]
 
@@ -145,17 +146,32 @@ while(agree=="y"):
     
 list=matrix_to_list(graph)
 print(list)
-m=int((input('C какой вершины начинаем? ')))
-BFS(list,m) 
 
-print("\n",connectedComponents(list))
+if isDicotyledonous(list)==False:
+    print("Этот граф не двудольный")
+connectedComponents(list)
 
-print("Хотите добавить ребра? y/n ")
+print("\nХотите добавить ребра? y/n ")
 agree=str(input())
 while(agree=="y"):
     addEdge(graph)
     agree=str(input("Ввести еще ребро? y/n "))
 
+print("Было:")
+connectedComponents(list)
 list=matrix_to_list(graph)
-print("\n",connectedComponents(list))
+print("\nСтало:")
+connectedComponents(list)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
