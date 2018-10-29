@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[70]:
+# In[4]:
 
 
 def addEdge(graph):
@@ -12,7 +12,7 @@ def addEdge(graph):
     graph[v2][v1]=1;
 
 
-# In[71]:
+# In[5]:
 
 
 def removeVertex(graph):
@@ -35,7 +35,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[72]:
+# In[6]:
 
 
 def matrix_to_list(matrix):
@@ -49,7 +49,7 @@ def matrix_to_list(matrix):
     return graph
 
 
-# In[73]:
+# In[7]:
 
 
 def BFS(graph, s): 
@@ -81,7 +81,39 @@ def BFS(graph, s):
                     visited[i] = True
 
 
-# In[75]:
+# In[27]:
+
+
+def connectedComponents(list): 
+    def findComponents(Node,Component):
+        while Node != Component[Node][0]: 
+            Node = Component[Node][0] 
+        return (Node,Component[Node][1]) 
+    components = {} 
+    for myNode in list.keys(): 
+        components[myNode] = (myNode,0) 
+    for i in list: 
+        for j in list[i]: 
+            (components_i,DepthI) = findComponents(i,components) 
+            (components_j,DepthJ) = findComponents(j,components) 
+            if components_i != components_j: 
+                Min = components_i 
+                Max = components_j
+                if DepthI > DepthJ: 
+                    Min = components_j 
+                    Max = components_i 
+                components[Max] = (Max,max(components[Min][1]+1,components[Max][1])) 
+                components[Min] = (components[Max][0],-1) 
+    items = {} 
+    for i in list: 
+        if components[i][0] == i: 
+            items[i] = [] 
+    for i in list: 
+        items[findComponents(i,components)[0]].append(i) 
+    return items 
+
+
+# In[29]:
 
 
 # Задание графа (матрица инцидентности)
@@ -116,9 +148,14 @@ print(list)
 m=int((input('C какой вершины начинаем? ')))
 BFS(list,m) 
 
+print("\n",connectedComponents(list))
 
-# In[ ]:
+print("Хотите добавить ребра? y/n ")
+agree=str(input())
+while(agree=="y"):
+    addEdge(graph)
+    agree=str(input("Ввести еще ребро? y/n "))
 
-
-
+list=matrix_to_list(graph)
+print("\n",connectedComponents(list))
 
