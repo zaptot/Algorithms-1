@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[23]:
+# In[31]:
 
 
 def findCycle(graph):
@@ -23,7 +23,7 @@ def findCycle(graph):
         return None
 
 
-# In[24]:
+# In[32]:
 
 
 def isEuler(graph):
@@ -33,9 +33,17 @@ def isEuler(graph):
     return True
 
 
-# In[25]:
+# In[36]:
 
 
+def addVertex(graph):
+    N=len(graph)
+    for i in range(N):
+        graph[i].append(0)  
+    N += 1
+    graph.append([0]* N)
+    for i in graph:
+        print(*i)
 def addEdge(graph):
     print('Введите вершины ребра: ')
     v1=(int(input())-1)
@@ -44,7 +52,7 @@ def addEdge(graph):
     graph[v2][v1]=1;
 
 
-# In[30]:
+# In[37]:
 
 
 def removeVertex(graph):
@@ -67,13 +75,22 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[37]:
+# In[ ]:
 
 
-# Задание графа (матрица смежности)
-N=int(input('число строк и столбцов: '))
-        
+# Задание графов(матрица инцидентности)
+N=-1
+
+while N <= 0:
+    N = int(input('Ведите количество вершин: '))
+
 graph=[[0 for _ in range(N)] for _ in range(N)]
+
+print("Хотите добавить вершины? y/n ")
+agree=str(input())
+while(agree=="y"):
+    addVertex(graph)
+    agree=str(input("Ввести еще вершину? y/n "))
 
 print("Хотите добавить ребра? y/n ")
 agree=str(input())
@@ -99,3 +116,10 @@ while(agree=="y"):
 
 print("Эйлеров: ",isEuler(graph))
 print("Цикл: ",findCycle(graph))
+
+
+# In[ ]:
+
+
+
+
