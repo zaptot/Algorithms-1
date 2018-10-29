@@ -1,9 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[27]:
 
 
+def addVertex(graph):
+    N=len(graph)
+    for i in range(N):
+        graph[i].append(0)  
+    N += 1
+    graph.append([0]* N)
+    for i in graph:
+        print(*i)
 def addEdge(graph):
     print('Введите вершины ребра: ')
     v1=(int(input()))
@@ -12,11 +20,12 @@ def addEdge(graph):
     graph[v2][v1]=1;
 
 
-# In[4]:
+# In[28]:
 
 
 def removeVertex(graph):
     k= (int(input('Какую вершину удаляем? ')))
+    N=len(graph)
     for i in range(N):
         for j in range (k,N-1):
             graph[i][j]=graph[i][j+1]
@@ -35,7 +44,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[5]:
+# In[29]:
 
 
 def matrix_to_list(matrix):
@@ -49,7 +58,7 @@ def matrix_to_list(matrix):
     return graph
 
 
-# In[50]:
+# In[30]:
 
 
 def BFS(graph, s, visited, colors): 
@@ -78,7 +87,7 @@ def BFS(graph, s, visited, colors):
                     visited[i] = True
 
 
-# In[56]:
+# In[31]:
 
 
 def connectedComponents(list): 
@@ -87,12 +96,12 @@ def connectedComponents(list):
     colors=[0]*(N)
     for i in range(N):
         if visited[i]==False:
-            print("Component number ",componentsNumber, ": ",end=" ")
+            print("Component ",componentsNumber, ": ",end=" ")
             componentsNumber+=1
             BFS(list,i,visited,colors)
 
 
-# In[57]:
+# In[32]:
 
 
 def isDicotyledonous(list):
@@ -114,13 +123,22 @@ def isDicotyledonous(list):
     return True
 
 
-# In[58]:
+# In[33]:
 
 
 # Задание графа (матрица инцидентности)
-N=int(input('Количество вершин: '))
-        
+N=-1
+
+while N <= 0:
+    N = int(input('Ведите количество вершин: '))
+
 graph=[[0 for _ in range(N)] for _ in range(N)]
+
+print("Хотите добавить вершины? y/n ")
+agree=str(input())
+while(agree=="y"):
+    addVertex(graph)
+    agree=str(input("Ввести еще вершину? y/n "))
 
 print("Хотите добавить ребра? y/n ")
 agree=str(input())
@@ -162,12 +180,6 @@ connectedComponents(list)
 list=matrix_to_list(graph)
 print("\nСтало:")
 connectedComponents(list)
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
