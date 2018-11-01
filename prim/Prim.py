@@ -129,7 +129,7 @@ g.graph=[[0 for _ in range(N)] for _ in range(N)]
 print("Хотите добавить вершины? y/n ")
 agree=str(input())
 while(agree=="y"):
-    addVertex(graph)
+    addVertex(g.graph)
     agree=str(input("Ввести еще вершину? y/n "))
 
 print("Хотите добавить ребра? y/n ")
