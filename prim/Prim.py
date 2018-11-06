@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[15]:
 
 
 import sys # Library for INT_MAX 
@@ -18,6 +18,18 @@ class Graph():
         print ("Edge \tWeight")
         for i in range(1,self.V): 
             print (parent[i],"-",i,"\t",self.graph[i][ parent[i] ] )
+            
+    def new(self,parent):
+        newGraph=[[0 for _ in range(N)] for _ in range(N)]
+        for i in range(1,self.V): 
+            v1=parent[i]
+            v2=i
+            weight=self.graph[i][ parent[i] ]
+            newGraph[v1][v2]=weight
+            newGraph[v2][v1]=weight
+        print("New graph by Prim's algorith:")
+        for i in newGraph:
+            print(*i)
   
     # A utility function to find the vertex with  
     # minimum distance value, from the set of vertices  
@@ -70,10 +82,11 @@ class Graph():
                         key[v] = self.graph[u][v] 
                         parent[v] = u 
   
-        self.printMST(parent) 
+        self.printMST(parent)
+        self.new(parent)
 
 
-# In[14]:
+# In[16]:
 
 
 def addVertex(graph):
@@ -91,8 +104,8 @@ def addEdge(graph):
     v2=(int(input())-1)
     print ('Введите вес ребра:')
     weight=(int(input()))
-    graph[v1][v2]=weight;
-    graph[v2][v1]=weight;
+    graph[v1][v2]=weight
+    graph[v2][v1]=weight
 
 def removeVertex(graph):
     k= (int(input('Какую вершину удаляем? '))-1)
@@ -114,7 +127,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[16]:
+# In[17]:
 
 
 # Задание графов(матрица инцидентности)
@@ -154,4 +167,11 @@ while(agree=="y"):
     N=N-1
     agree=str(input("Удалить еще вершину? y/n "))
 
-g.primMST(); 
+g.primMST()
+
+
+# In[ ]:
+
+
+
+
