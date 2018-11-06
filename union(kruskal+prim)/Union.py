@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[157]:
+# In[169]:
 
 
 import sys
@@ -47,12 +47,12 @@ def primMST(graph):
     return primGraph
 
 
-# In[158]:
+# In[170]:
 
 
 from math import inf, isinf
 
-def kruskal(graph):
+def kruskalMST(graph):
     kruskalGraph=[[0 for _ in range(N)] for _ in range(N)]
     minimalSpanningTree = []
     marks = {}
@@ -97,14 +97,13 @@ def changeMarks(marks, oldMark, newMark):
     return marks
 
 
-# In[161]:
+# In[171]:
 
 
 def union(graph):
-    global kruskal
     combine = [[0 for _ in range(N)] for _ in range(N)]
     prim = primMST(graph)
-    kruskal = kruskal(graph)
+    kruskal = kruskalMST(graph)
     for i in range (N):
         for j in range (N):
             if (prim[i][j] == 0 and kruskal[i][j] == 0):
@@ -114,12 +113,12 @@ def union(graph):
                     combine[i][j] = prim[i][j]
                 if (kruskal[i][j] != 0):
                     combine[i][j] = kruskal[i][j]
-    print("New union graph algorithm:")
+    print("\nNew union graph algorithm:")
     for i in combine:
         print(*i)
 
 
-# In[162]:
+# In[172]:
 
 
 def addVertex(graph):
@@ -160,7 +159,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[163]:
+# In[173]:
 
 
 # Задание графов(матрица инцидентности)
@@ -200,4 +199,10 @@ while(agree=="y"):
     agree=str(input("Удалить еще вершину? y/n "))
     
 union(graph)
+
+
+# In[ ]:
+
+
+
 
