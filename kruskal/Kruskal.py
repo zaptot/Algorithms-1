@@ -1,25 +1,34 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[21]:
+# In[59]:
 
 
 from math import inf, isinf
 
 def kruskal(graph):
+    newGraph=[[0 for _ in range(N)] for _ in range(N)]
     minimalSpanningTree = []
     marks = {}
     for mark in range(len(graph)):
         marks[mark] = mark
     while len(minimalSpanningTree) < len(graph) - 1:
         minEdge = getMinEdge(graph, marks)
+        weight = getMinEdge2(graph, marks)
         minimalSpanningTree.append(minEdge)
+        v1= minEdge[0]
+        v2= minEdge[1]
+        newGraph[v1][v2]=weight
+        newGraph[v2][v1]=weight
         marks = changeMarks(marks, marks[minEdge[0]], marks[minEdge[1]])
-    return minimalSpanningTree
-
+    print (minimalSpanningTree)
+    print("New graph by Kruskal's algorithm:")
+    for i in newGraph:
+        print(*i)
+    
 def getMinEdge(graph, marks):
     minEdge = inf
-    edge = ();
+    edge = ()
     for i in range(len(graph)):
         for j in range(len(graph[i])):
             cell = graph[i][j]
@@ -28,7 +37,17 @@ def getMinEdge(graph, marks):
                     minEdge = graph[i][j]
                     edge = (i, j)
     return edge
-
+def getMinEdge2(graph, marks):
+    minEdge = inf
+    edge = ()
+    for i in range(len(graph)):
+        for j in range(len(graph[i])):
+            cell = graph[i][j]
+            if cell > 0 and cell < minEdge:
+                if marks[i] != marks[j]:
+                    minEdge = graph[i][j]
+    return minEdge
+    
 def changeMarks(marks, oldMark, newMark):
     for key in marks:
         if marks[key] == oldMark:
@@ -36,7 +55,7 @@ def changeMarks(marks, oldMark, newMark):
     return marks
 
 
-# In[22]:
+# In[60]:
 
 
 def addVertex(graph):
@@ -77,7 +96,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[24]:
+# In[62]:
 
 
 # Задание графов(матрица инцидентности)
@@ -115,7 +134,7 @@ while(agree=="y"):
     N=N-1
     agree=str(input("Удалить еще вершину? y/n "))
 
-print("\n",kruskal(graph))
+kruskal(graph)
 
 
 # In[ ]:
