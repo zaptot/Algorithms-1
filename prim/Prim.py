@@ -1,92 +1,52 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[30]:
 
 
-import sys # Library for INT_MAX 
+import sys
+def printMST(graph, parent): 
+    print ("Prim:")
+    print ("Edge \tWeight")
+    for i in range(1,N): 
+        print (parent[i],"-",i,"\t",graph[i][parent[i]] )
+        
+def minKey(graph, key, mstSet): 
+    min = sys.maxsize
+    for v in range(N): 
+        if key[v] < min and mstSet[v] == False: 
+            min = key[v] 
+            min_index = v 
+    return min_index 
+
+def primMST(graph): 
+    key = [sys.maxsize] * N 
+    parent = [None] * N
+    key[0] = 0 
+    mstSet = [False] * N 
+    parent[0] = -1
+    for cout in range(N): 
+        u = minKey(graph,key, mstSet) 
+        mstSet[u] = True
+        for v in range(N): 
+            if graph[u][v] > 0 and mstSet[v] == False and key[v] > graph[u][v]: 
+                    key[v] = graph[u][v] 
+                    parent[v] = u 
   
-class Graph(): 
-  
-    def __init__(self, vertices): 
-        self.V = vertices 
-        self.graph = [[0 for column in range(vertices)]  
-                    for row in range(vertices)] 
-  
-    # A utility function to print the constructed MST stored in parent[] 
-    def printMST(self, parent): 
-        print ("Edge \tWeight")
-        for i in range(1,self.V): 
-            print (parent[i],"-",i,"\t",self.graph[i][ parent[i] ] )
-            
-    def new(self,parent):
-        newGraph=[[0 for _ in range(N)] for _ in range(N)]
-        for i in range(1,self.V): 
-            v1=parent[i]
-            v2=i
-            weight=self.graph[i][ parent[i] ]
-            newGraph[v1][v2]=weight
-            newGraph[v2][v1]=weight
-        print("New graph by Prim's algorith:")
-        for i in newGraph:
-            print(*i)
-  
-    # A utility function to find the vertex with  
-    # minimum distance value, from the set of vertices  
-    # not yet included in shortest path tree 
-    def minKey(self, key, mstSet): 
-  
-        # Initilaize min value 
-        min = sys.maxsize
-  
-        for v in range(self.V): 
-            if key[v] < min and mstSet[v] == False: 
-                min = key[v] 
-                min_index = v 
-  
-        return min_index 
-  
-    # Function to construct and print MST for a graph  
-    # represented using adjacency matrix representation 
-    def primMST(self): 
-  
-        #Key values used to pick minimum weight edge in cut 
-        key = [sys.maxsize] * self.V 
-        parent = [None] * self.V # Array to store constructed MST 
-        # Make key 0 so that this vertex is picked as first vertex 
-        key[0] = 0 
-        mstSet = [False] * self.V 
-  
-        parent[0] = -1 # First node is always the root of 
-  
-        for cout in range(self.V): 
-  
-            # Pick the minimum distance vertex from  
-            # the set of vertices not yet processed.  
-            # u is always equal to src in first iteration 
-            u = self.minKey(key, mstSet) 
-  
-            # Put the minimum distance vertex in  
-            # the shortest path tree 
-            mstSet[u] = True
-  
-            # Update dist value of the adjacent vertices  
-            # of the picked vertex only if the current  
-            # distance is greater than new distance and 
-            # the vertex in not in the shotest path tree 
-            for v in range(self.V): 
-                # graph[u][v] is non zero only for adjacent vertices of m 
-                # mstSet[v] is false for vertices not yet included in MST 
-                # Update the key only if graph[u][v] is smaller than key[v] 
-                if self.graph[u][v] > 0 and mstSet[v] == False and key[v] > self.graph[u][v]: 
-                        key[v] = self.graph[u][v] 
-                        parent[v] = u 
-  
-        self.printMST(parent)
-        self.new(parent)
+    graphP = printMST(graph,parent)
+    primGraph=[[0 for _ in range(N)] for _ in range(N)]
+    for i in range(1,N): 
+        v1=parent[i]
+        v2=i
+        weight=graph[i][parent[i]]
+        primGraph[v1][v2]=weight
+        primGraph[v2][v1]=weight
+    print("New graph by Prim's algorith:")
+    for i in primGraph:
+        print(*i)
 
 
-# In[16]:
+# In[31]:
 
 
 def addVertex(graph):
@@ -127,7 +87,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[17]:
+# In[29]:
 
 
 # Задание графов(матрица инцидентности)
@@ -136,38 +96,37 @@ N=-1
 while N <= 0:
     N = int(input('Ведите количество вершин: '))
 
-g = Graph(N) 
-g.graph=[[0 for _ in range(N)] for _ in range(N)]
+graph=[[0 for _ in range(N)] for _ in range(N)]
 
 print("Хотите добавить вершины? y/n ")
 agree=str(input())
 while(agree=="y"):
-    addVertex(g.graph)
+    addVertex(graph)
     agree=str(input("Ввести еще вершину? y/n "))
 
 print("Хотите добавить ребра? y/n ")
 agree=str(input())
 while(agree=="y"):
-    addEdge(g.graph)
+    addEdge(graph)
     agree=str(input("Ввести еще ребро? y/n "))
 
-for i in g.graph:
+for i in graph:
     print(*i)
 
 print("Хотите удалить ребра? y/n ")
 agree=str(input())
 while(agree=="y"):
-    removeEdge(g.graph)
+    removeEdge(graph)
     agree=str(input("Удалить еще ребро? y/n "))
     
 print("Хотите удалить вершины? y/n ")
 agree=str(input())
 while(agree=="y"):
-    removeVertex(g.graph)
+    removeVertex(graph)
     N=N-1
     agree=str(input("Удалить еще вершину? y/n "))
 
-g.primMST()
+primMST(graph)
 
 
 # In[ ]:
