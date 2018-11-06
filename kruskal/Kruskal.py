@@ -1,29 +1,31 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[59]:
+# In[77]:
 
 
 from math import inf, isinf
 
 def kruskal(graph):
-    newGraph=[[0 for _ in range(N)] for _ in range(N)]
+    kruskalGraph=[[0 for _ in range(N)] for _ in range(N)]
     minimalSpanningTree = []
     marks = {}
     for mark in range(len(graph)):
         marks[mark] = mark
     while len(minimalSpanningTree) < len(graph) - 1:
-        minEdge = getMinEdge(graph, marks)
-        weight = getMinEdge2(graph, marks)
+        minEdge = getMinEdge(graph, marks)[0]
+        weight = getMinEdge(graph, marks)[1]
         minimalSpanningTree.append(minEdge)
+        marks = changeMarks(marks, marks[minEdge[0]], marks[minEdge[1]])
         v1= minEdge[0]
         v2= minEdge[1]
-        newGraph[v1][v2]=weight
-        newGraph[v2][v1]=weight
-        marks = changeMarks(marks, marks[minEdge[0]], marks[minEdge[1]])
-    print (minimalSpanningTree)
+        kruskalGraph[v1][v2]=weight
+        kruskalGraph[v2][v1]=weight
+    print("\nKruskal:")
+    for i in range (len(minimalSpanningTree)):
+        print (minimalSpanningTree[i])
     print("New graph by Kruskal's algorithm:")
-    for i in newGraph:
+    for i in kruskalGraph:
         print(*i)
     
 def getMinEdge(graph, marks):
@@ -36,17 +38,10 @@ def getMinEdge(graph, marks):
                 if marks[i] != marks[j]:
                     minEdge = graph[i][j]
                     edge = (i, j)
-    return edge
-def getMinEdge2(graph, marks):
-    minEdge = inf
-    edge = ()
-    for i in range(len(graph)):
-        for j in range(len(graph[i])):
-            cell = graph[i][j]
-            if cell > 0 and cell < minEdge:
-                if marks[i] != marks[j]:
-                    minEdge = graph[i][j]
-    return minEdge
+    list = []
+    list.append(edge)
+    list.append(minEdge)
+    return list
     
 def changeMarks(marks, oldMark, newMark):
     for key in marks:
@@ -55,7 +50,7 @@ def changeMarks(marks, oldMark, newMark):
     return marks
 
 
-# In[60]:
+# In[78]:
 
 
 def addVertex(graph):
@@ -96,7 +91,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[62]:
+# In[80]:
 
 
 # Задание графов(матрица инцидентности)
@@ -135,10 +130,4 @@ while(agree=="y"):
     agree=str(input("Удалить еще вершину? y/n "))
 
 kruskal(graph)
-
-
-# In[ ]:
-
-
-
 
