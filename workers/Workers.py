@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[21]:
+# In[121]:
 
 
 refuse = 0
@@ -21,7 +21,7 @@ def work(men, job):
 
         manIndex = job[prefJobIndex].index(unapairedManIndex)
         worked = deletePrevSuggestion(worked, prefJobIndex)
-
+        
         if manIndex is 0:
             worked[unapairedManIndex][prefJobIndex] = accept
             pairs.append((unapairedManIndex, prefJobIndex))
@@ -58,12 +58,37 @@ def deletePrevSuggestion(worked, job):
     return worked
 
 
-# In[24]:
+# In[123]:
 
 
-men = [[0, 1, 2], [2, 0, 1], [2, 1, 0]]
+men = [[0, 1, 2], [2, 0, 1], [1, 2, 0]]
 
 job = [[2, 1, 0], [1, 0, 2], [0, 2, 1]]
 
-print(work(men, job))
+# приоритет
+list = []
+for i in range(len(men)):
+    man = men[i]
+    for j in range(len(man)):
+        if men[i][j] == accept:
+                first = (i,j)
+                list.append(first)
+
+# время
+list2 = []
+for i in range(len(job)):
+    for j in range(len(job[i])):
+        if job[i][j] == accept:
+                first = (j,i)
+                list2.append(first)
+
+print("по алгоритму",work(men, job))
+print ("по приоритету:",list)
+print ("по времени:",list2)
+
+
+# In[ ]:
+
+
+
 
