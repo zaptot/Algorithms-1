@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[169]:
+# In[7]:
 
 
 import sys
@@ -24,8 +24,7 @@ def primMST(graph):
     parent = [None] * N
     key[0] = 0 
     mstSet = [False] * N 
-    parent[0] = -1
-    for cout in range(N): 
+    for j in range(N): 
         u = minKey(graph,key, mstSet) 
         mstSet[u] = True
         for v in range(N): 
@@ -47,7 +46,7 @@ def primMST(graph):
     return primGraph
 
 
-# In[170]:
+# In[8]:
 
 
 from math import inf, isinf
@@ -97,7 +96,7 @@ def changeMarks(marks, oldMark, newMark):
     return marks
 
 
-# In[171]:
+# In[9]:
 
 
 def union(graph):
@@ -118,7 +117,7 @@ def union(graph):
         print(*i)
 
 
-# In[172]:
+# In[10]:
 
 
 def addVertex(graph):
@@ -159,7 +158,7 @@ def removeEdge(graph):
         print(*i)
 
 
-# In[173]:
+# In[11]:
 
 
 # Задание графов(матрица инцидентности)
@@ -199,10 +198,4 @@ while(agree=="y"):
     agree=str(input("Удалить еще вершину? y/n "))
     
 union(graph)
-
-
-# In[ ]:
-
-
-
 
