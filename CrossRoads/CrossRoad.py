@@ -1,24 +1,26 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[62]:
+# In[93]:
 
 
 from math import inf
-N=4
 
 def floydWarshall(graph): 
-    dist = list(map(lambda i : list (map(lambda j : j , i)) , graph))
     for k in range(N): 
         for i in range(N): 
             for j in range(N): 
-                dist[i][j] = min(dist[i][j] , dist[i][k]+ dist[k][j] ) 
+                graph[i][j] = min(graph[i][j] , graph[i][k]+ graph[k][j] ) 
     print ("Following matrix shows the shortest distances\ between every pair of vertices" )
-    for i in dist:
+    for i in graph:
         print(*i)
+#     for i in range(N): 
+#         for j in range(N): 
+#             e[i] = max(e[i], graph[i][j])
+#             print(e[i])
 
 
-# In[64]:
+# In[94]:
 
 
 def addVertex(graph):
@@ -39,7 +41,7 @@ def addEdge(graph):
     graph[v1][v2]=weight;
 
 
-# In[65]:
+# In[95]:
 
 
 # Задание графов(матрица инцидентности)
@@ -48,6 +50,8 @@ N=-1
 while N <= 0:
     N = int(input('Ведите количество вершин: '))
 graph =[[inf for _ in range(N)] for _ in range(N)]
+for i in range(N):
+    graph[i][i] = 0
 
 print("Хотите добавить вершины? y/n ")
 agree=str(input())
