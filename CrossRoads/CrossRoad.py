@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[254]:
+# In[1]:
 
 
 from math import inf
@@ -27,7 +27,7 @@ def floydWarshall(graph):
     print("пожарная станция может быть на перекрестке:",c)
 
 
-# In[255]:
+# In[2]:
 
 
 def addVertex(graph):
@@ -48,9 +48,11 @@ def addEdge(graph):
     print ('Введите вес:')
     weight=(int(input()))
     graph[v1][v2]=weight;
+#     если граф неориентированный
+    graph[v2][v1]=weight;
 
 
-# In[256]:
+# In[3]:
 
 
 # Задание графов(матрица инцидентности)
