@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[10]:
+# In[25]:
 
 
 from collections import defaultdict 
@@ -13,7 +13,6 @@ class Graph:
         self.graph = defaultdict(list)
         self.Time = 0
    
-    # function to add an edge to graph 
     def addEdge(self): 
         print('Введите вершины ребра: ')
         u=(int(input()))
@@ -55,16 +54,23 @@ class Graph:
             return False
           
         return True
+    def DFSUtil(self,v,visited): 
+        visited[v]= True
+        print (v)
+        for i in self.graph[v]: 
+            if visited[i] == False: 
+                self.DFSUtil(i, visited) 
+                
+    def DFS(self,v): 
+        visited = [False]*(len(self.graph)) 
+        self.DFSUtil(v,visited)
 
 
-# In[12]:
+# In[26]:
 
 
 # Задание графов(матрица инцидентности)
-N=-1
-
-while N <= 0:
-    N = int(input('Ведите количество вершин: '))
+N = int(input('Ведите количество вершин: '))
 
 graph=Graph(N)
 
@@ -73,5 +79,6 @@ agree=str(input())
 while(agree=="y"):
     graph.addEdge()
     agree=str(input("Ввести еще ребро? y/n "))
-print ("Yes" if g2.isBC() else "No")   
+print ("Yes" if graph.isBC() else "No")  
+print (graph.DFS(2))
 
