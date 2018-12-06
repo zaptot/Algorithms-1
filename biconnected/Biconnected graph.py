@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[25]:
+# In[31]:
 
 
 from collections import defaultdict 
@@ -54,19 +54,9 @@ class Graph:
             return False
           
         return True
-    def DFSUtil(self,v,visited): 
-        visited[v]= True
-        print (v)
-        for i in self.graph[v]: 
-            if visited[i] == False: 
-                self.DFSUtil(i, visited) 
-                
-    def DFS(self,v): 
-        visited = [False]*(len(self.graph)) 
-        self.DFSUtil(v,visited)
 
 
-# In[26]:
+# In[32]:
 
 
 # Задание графов(матрица инцидентности)
@@ -79,6 +69,11 @@ agree=str(input())
 while(agree=="y"):
     graph.addEdge()
     agree=str(input("Ввести еще ребро? y/n "))
-print ("Yes" if graph.isBC() else "No")  
-print (graph.DFS(2))
+print ("Yes" if graph.isBC() else "No")
+
+
+# In[ ]:
+
+
+
 
