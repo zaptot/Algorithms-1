@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[31]:
+# In[25]:
 
 
 from collections import defaultdict 
@@ -20,11 +20,33 @@ class Graph:
         self.graph[u].append(v) 
         self.graph[v].append(u)
         
-    def isBCUtil(self,u, visited, parent, low, disc): 
+    def DFS(self):
+        time = 0
+        graph = self
+        visited = [False] * (self.V) 
+        disc = self.V
+        low = self.V
+        parent = self.V
+        articulationPoints = [False] * (self.V) 
+        for i in range(self.V):
+            parent[i] = -1
+            visited[i] = False
+            articulationPoints[i] = False
+        return articulationPoints
+
+    def findArticulationPoints():
+        points = []
+        for i in range (self.V):
+            if (articulationPoints[i]):
+                print((i + 1) + " ")
+                points.append(i)
+        return points
+        
+    def isBCUtil(self, u, visited, parent, low, disc): 
         children =0
         visited[u]= True
         disc[u] = self.Time 
-        low[u] = self.Time 
+        low[u] = self.Time
         self.Time += 1
         for v in self.graph[u]:
             if visited[v] == False : 
@@ -43,20 +65,26 @@ class Graph:
   
         return False
 
-    def isBC(self): 
+    def isBC(self):
+        articulationPoints = self.DFS()
         visited = [False] * (self.V) 
         disc = [float("Inf")] * (self.V) 
         low = [float("Inf")] * (self.V) 
-        parent = [-1] * (self.V) 
-        if self.isBCUtil(0, visited, parent, low, disc): 
-            return False
-        if any(i == False for i in visited): 
-            return False
-          
-        return True
+        parent = [-1] * (self.V)
+        flag = True
+        for i in range (self.V):
+            if (not visited[i]):
+                self.isBCUtil(i, visited, parent, low, disc)
+        for articulationPoint in articulationPoints:
+            if (articulationPoint):
+                flag = False
+        for i  in range (self.V):
+            if (not visited[i]):
+                return False
+        return flag
 
 
-# In[32]:
+# In[27]:
 
 
 # Задание графов(матрица инцидентности)
