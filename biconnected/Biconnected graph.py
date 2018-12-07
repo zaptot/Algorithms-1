@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[25]:
+# In[3]:
 
 
 from collections import defaultdict 
@@ -26,7 +26,7 @@ class Graph:
         visited = [False] * (self.V) 
         disc = self.V
         low = self.V
-        parent = self.V
+        parent = [-1] * (self.V)
         articulationPoints = [False] * (self.V) 
         for i in range(self.V):
             parent[i] = -1
@@ -84,7 +84,7 @@ class Graph:
         return flag
 
 
-# In[27]:
+# In[5]:
 
 
 # Задание графов(матрица инцидентности)
@@ -97,7 +97,7 @@ agree=str(input())
 while(agree=="y"):
     graph.addEdge()
     agree=str(input("Ввести еще ребро? y/n "))
-print ("Yes" if graph.isBC() else "No")
+print (graph.isBC())
 
 
 # In[ ]:
