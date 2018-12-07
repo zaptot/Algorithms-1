@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[45]:
 
 
 from collections import defaultdict 
@@ -20,71 +20,62 @@ class Graph:
         self.graph[u].append(v) 
         self.graph[v].append(u)
         
-    def DFS(self):
-        time = 0
-        graph = self
-        visited = [False] * (self.V) 
-        disc = self.V
-        low = self.V
-        parent = [-1] * (self.V)
-        articulationPoints = [False] * (self.V) 
-        for i in range(self.V):
-            parent[i] = -1
-            visited[i] = False
-            articulationPoints[i] = False
-        return articulationPoints
-
-    def findArticulationPoints():
-        points = []
-        for i in range (self.V):
-            if (articulationPoints[i]):
-                print((i + 1) + " ")
-                points.append(i)
-        return points
+    def addEdgeByIndex(self, u, v):
+        self.graph[u].append(v) 
+        self.graph[v].append(u)
         
-    def isBCUtil(self, u, visited, parent, low, disc): 
-        children =0
-        visited[u]= True
-        disc[u] = self.Time 
-        low[u] = self.Time
-        self.Time += 1
-        for v in self.graph[u]:
-            if visited[v] == False : 
-                parent[v] = u 
-                children += 1
-                if self.isBCUtil(v, visited, parent, low, disc): 
-                    return True
-                low[u] = min(low[u], low[v])
-                if parent[u] == -1 and children > 1: 
-                    return True
-                if parent[u] != -1 and low[v] >= disc[u]: 
-                    return True    
-                      
-            elif v != parent[u]:
-                low[u] = min(low[u], disc[v]) 
-  
+    def removeEdge(self, u, v):
+        self.graph[u].remove(v)
+        self.graph[v].remove(u)
+        
+    def DFS(self, fromV, toV):
+        stack = [fromV]
+        visited = [False] * self.V
+        
+        visited[fromV] = True
+        
+        while stack:
+            vertex = stack.pop()
+            
+            if vertex == toV:
+                return True
+            
+            for i in self.graph[vertex]:
+                if not visited[i]:
+                    stack.append(i)
+                    visited[i] = True
+        
         return False
 
-    def isBC(self):
-        articulationPoints = self.DFS()
-        visited = [False] * (self.V) 
-        disc = [float("Inf")] * (self.V) 
-        low = [float("Inf")] * (self.V) 
-        parent = [-1] * (self.V)
-        flag = True
-        for i in range (self.V):
-            if (not visited[i]):
-                self.isBCUtil(i, visited, parent, low, disc)
-        for articulationPoint in articulationPoints:
-            if (articulationPoint):
-                flag = False
-        for i  in range (self.V):
-            if (not visited[i]):
-                return False
-        return flag
+    
+    def makeBiconnected(self):
+        counter = 0
+        
+        for parent in range(self.V):
+            for child in self.graph[parent]:
+                self.removeEdge(parent, child)
+                
+                if self.DFS(parent, child) == False:
+                    if len(self.graph[child]) == 0:
+                        vert1 = self.graph[parent][0]
+                        vert2 = child
+                    else:
+                        vert1 = self.graph[child][0]
+                        vert2 = parent
+                    
+                    self.addEdgeByIndex(vert1, vert2)
+                    self.addEdgeByIndex(parent, child)
+                    
+                    parent -= 1
+                    counter += 1
+                    break
+                
+                self.addEdgeByIndex(parent, child)
+        
+        return counter
 
 
-# In[5]:
+# In[47]:
 
 
 # Задание графов(матрица инцидентности)
@@ -97,7 +88,8 @@ agree=str(input())
 while(agree=="y"):
     graph.addEdge()
     agree=str(input("Ввести еще ребро? y/n "))
-print (graph.isBC())
+
+print("Edges to add: ", graph.makeBiconnected())
 
 
 # In[ ]:
